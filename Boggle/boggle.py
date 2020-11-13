@@ -49,18 +49,19 @@ class Trie:
 class Node:
   def __init__(self,data):
     self.data=data
-    self.neighbors = set()
+    self.neighbors = []
     self.visited = False
   
   def addNeighbors(self,neighborNode):
-    self.neighbors.add(neighborNode)
+    if neighborNode not in self.getNeighbors():
+      self.neighbors.append(neighborNode)
 
   def getNeighbors(self):
     return self.neighbors
 
 
 def dfs(root, node, string, trie, stringSet):
-  neighbors = list(node.getNeighbors())
+  neighbors = node.getNeighbors()
   node.visited = True
   indexed = ord(node.data) - 65
   if root.arr[indexed] != None:
@@ -90,7 +91,7 @@ for i in range(numOfDictionaryWords):
   if len(word)<=8 and len(word)>2:
     #inserting every word in trie
     trie.insertWord(word.upper())
-
+input()
 
 # ##Input words from url
 # import urllib.request
@@ -107,7 +108,7 @@ node=[]
 
 #Input the num of boogle boards
 numOfBoards = int(input())
-board=[]*numOfBoards
+board=[]
 for i in range(numOfBoards):
   brd =[]
   for j in range(4):
@@ -156,7 +157,10 @@ for i in range(numOfBoards):
     node[i].addNeighbors(node[i-3])
     node[i].addNeighbors(node[i+1])
   
-
+  # for i in range(16):
+  #   print("Neighbors: ",node[i].data)
+  #   for data in node[i].getNeighbors():
+  #     print(data.data)
   
   #String Sets 
   stringSets = {}
@@ -183,7 +187,8 @@ for i in range(numOfBoards):
         longestWord = str
     maxScore = scoreSet[len(str)] + maxScore
     wordCount = wordCount + 1
-  node.clear
+  node.clear()
+  stringSets.clear()
   print(maxScore, longestWord, wordCount)
 
 
